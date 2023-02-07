@@ -1,0 +1,71 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* NEWLY ADDED CODE */
+
+
+html, #root {
+  background-color: aliceblue;
+}
+
+/* table, tbody {
+  color:white;
+} */ */
+
+#bookConfirmation {
+  text-align: center; 
+  margin: 50px 300px; 
+  padding:50px;
+  border-style: solid; 
+  border-radius:50px;
+}
+
+button.p-button.p-component.p-datepicker-trigger.p-button-icon-only {
+  background: #0d6efd;
+  border: none;
+}
+
+.form-group {
+  margin: 20px;
+}
+.form-group input {
+  width: 500px;
+}
+
+
