@@ -5,8 +5,12 @@ import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Checkbox } from "primereact/checkbox";
 
+// import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+// import { Toast } from 'primereact/toast';
+
 
 export default function Create() {
+
   const [form, setForm] = useState({
       title: "",
       author: "",
@@ -49,7 +53,7 @@ export default function Create() {
 
   const navigate = useNavigate();
 
-  const [date, setDate] = useState('');
+  // const [date, setDate] = useState('');
   const dateInputRef = useRef(null);
   
   // These methods will update the state properties.
@@ -111,6 +115,7 @@ async function onSubmit(e) {
  
  // This following section will display the form that takes the input from the user.
 return (
+  
   <div>
     <i className="pi pi-fw pi-arrow-circle-left" onClick={() => navigate("/")} style={{'fontSize':'2em','cursor':'pointer','marginLeft':50}}></i>
     <div style={{ margin: 'auto', width: '50%', padding: 50}}>
@@ -178,167 +183,9 @@ return (
             value="Add New Book"
           />
         </div>
-          {/* </div>
-          <div className="">
-          <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreAction&Adventure"
-                value="Action & Adventure"
-                checked={form.genre === "Action & Adventure"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreAction&Adventure" className="form-check-label">Action & Adventure</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreAdult"
-                value="Adult"
-                checked={form.genre === "Adult"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreAdult" className="form-check-label">Adult</label>
-          </div>
-          <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreBibliography"
-                value="Bibliography"
-                checked={form.genre === "Bibliography"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreBibliography" className="form-check-label">Bibliography</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreComedy"
-                value="Comedy"
-                checked={form.genre === "Comedy"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreComedy" className="form-check-label">Comedy</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreDrama"
-                value="Drama"
-                checked={form.genre === "Drama"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreDrama" className="form-check-label">Drama</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreDystopian"
-                value="Dystopian"
-                checked={form.genre === "Dystopian"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreDystopian" className="form-check-label">Dystopian</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreFantasy"
-                value="Fantasy"
-                checked={form.genre === "Fantasy"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreFantasy" className="form-check-label">Fantasy</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreMystery"
-                value="Mystery"
-                checked={form.genre === "Mystery"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreMystery" className="form-check-label">Mystery</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreRomance"
-                value="Romance"
-                checked={form.genre === "Romance"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreRomance" className="form-check-label">Romance</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreSatire"
-                value="Satire"
-                checked={form.genre === "Satire"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreSatire" className="form-check-label">Satire</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreSelfHelp"
-                value="Self Help"
-                checked={form.genre === "Self Help"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreSelfHelp" className="form-check-label">Self Help</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreThriller"
-                value="Thriller"
-                checked={form.genre === "Thriller"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreThriller" className="form-check-label">Thriller</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="genreOptions"
-                id="genreYoungAdult"
-                value="Young Adult"
-                checked={form.genre === "Young Adult"}
-                onChange={(e) => updateForm({ genre: e.target.value })}
-              />
-              <label htmlFor="genreYoungAdult" className="form-check-label">Young Adult</label>
-          </div> */}
-        </div>
-      </form>
-    </div>
-   </div>
- );
+      </div>
+    </form>
+  </div>
+  </div>
+);
 }

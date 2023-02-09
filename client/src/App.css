@@ -39,14 +39,20 @@
 
 /* NEWLY ADDED CODE */
 
+.navbar-brand h1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align: center;
+  font-style: italic;
+}
 
-html, #root {
+html, #root, .navbar {
   background-color: aliceblue;
 }
 
-/* table, tbody {
-  color:white;
-} */ */
+.navbar, .bookList {
+  margin: auto;
+  width: 90%;
+}
 
 #bookConfirmation {
   text-align: center; 
@@ -68,4 +74,16 @@ button.p-button.p-component.p-datepicker-trigger.p-button-icon-only {
   width: 500px;
 }
 
+.card > .p-menubar {
+  border: none;
+  background: none;
+  margin-right: 100px;
+}
 
+.card > ul {
+  width: 50px;
+}
+
+.p-datatable-tbody > tr {
+  padding: none;
+}
