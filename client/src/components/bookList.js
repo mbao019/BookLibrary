@@ -6,41 +6,22 @@ import '../App.css';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
-const Book = (props) => (
-  
- <tr>
-   <td>{props.book.title}</td>
-   <td>{props.book.author}</td>
-   <td>{props.book.date}</td>
-   <td>{props.book.genre}</td>
-   <td>
-   <Dropdown >
-      <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ background:"none", color:"black", border:"none"}}>
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item>
-        <Link className="btn btn-link" to={`/edit/${props.book._id}`} style={{ textDecoration:"none"}} >Edit</Link>
-        </Dropdown.Item>
-        
-        <Dropdown.Item>
-          <Link className="btn btn-link" to={`/confirmation/${props.book._id}`} style={{ textDecoration:"none"}}>
-            Delete
-          </Link>
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-   </td>
- </tr>
-);
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { InputText } from 'primereact/inputtext';
+import Book from './book.js';
 
 export default function BookList() {
 
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
-  const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
-  const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+  // const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text" />;
+  // const paginatorRight = <Button type="button" icon="pi pi-cloud" className="p-button-text" />;
+
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  });
 
   const onRowEditComplete = (e) => {
     let bookId = e.data._id
@@ -87,9 +68,31 @@ export default function BookList() {
  
     return;
 }, [books.length]);
-  
+
+const onGlobalFilterChange = (e) => {
+  const value = e.target.value;
+  let _filters = { ...filters };
+
+  _filters['global'].value = value;
+
+  setFilters(_filters);
+  setGlobalFilterValue(value);
+};
+
+
+const renderHeader = () => {
+  return (
+      <div className="flex justify-content-end" style={{ marginLeft: "80%", }}>
+          <span className="p-input-icon-left">
+              <i className="pi pi-search" />
+              <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+          </span>
+      </div>
+  );
+};
+
 // This method will map out the records on the table
-function bookList() {
+const bookList = () => {
 
   return books.map((book) => {
     return (
@@ -102,42 +105,86 @@ function bookList() {
   });
 }
 
-function totalBookList() {
+const completedBooks = () => {
+  let num = 0;
+  books.map((book) => {
+    if (book.date !== "Plan To Read") {
+      num++;
+    }
+  });
   return (
-    <h4>Total Books: {bookList().length}</h4>
+    num
   )
 }
+
+const planToReadBooks = () => {
+  let num = 0;
+  books.map((book) => {
+    if (book.date == "Plan To Read") {
+      num++;
+    }
+  });
+  return (
+    num
+  )
+}
+
+const header = renderHeader();
  
- // This following section will display the table with the records of individuals.
+ // This following section will display the table with the records of books.
 return (
-  <div className="bookList">
-    <h3 style={{ textAlign: "center", margin: 20}}>BOOK LIST</h3>
-    <div className="card p-fluid datatable-editing-demo" style={{marginBottom:50}}>
-        <DataTable value={books} header={totalBookList} size="small" stripedRows paginator editMode="row" dataKey="id" onRowEditComplete={onRowEditComplete} responsiveLayout="scroll"
+  <div class="mainLayout">
+    <div className="bookList">
+      {/* <h3 style={{ textAlign: "center", margin: 20}}>BOOK LIST</h3> */}
+      <div className="card p-fluid datatable-editing-demo" style={{marginBottom:50}}>
+          <DataTable 
+            value={books} 
+            header={header} 
+            size="small" 
+            stripedRows paginator 
+            editMode="row" 
+            dataKey="id" 
+            onRowEditComplete={onRowEditComplete} 
+            responsiveLayout="scroll" 
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={10} rowsPerPageOptions={[10,20,50]}
-            paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
-            <Column field="title" header="Title" headerStyle={{ width: '30%' }} sortable ></Column>
-            <Column field="author" header="Author" headerStyle={{ width: '15%' }}sortable></Column>
-            <Column field="date" header="Date"  headerStyle={{ width: '15%' }}sortable></Column>
-            <Column field="genre" header="Genres" headerStyle={{ width: '30%' }}sortable></Column>
-            <Column field="action" header="Action" rowEditor headerStyle={{ width: '5%'}}  body={toggleClass}></Column>
-        </DataTable>
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" 
+            rows={25} rowsPerPageOptions={[20,50]}
+            filters={filters} 
+            // filterDisplay="row"
+            globalFilterFields={['title', 'author', 'date', 'genre']}
+            >
+
+              {/* // paginatorLeft={paginatorLeft} paginatorRight={paginatorRight} */}
+              <Column field="title" header="Title" headerStyle={{ width: '30%' }} sortable ></Column>
+              <Column field="author" header="Author" headerStyle={{ width: '15%' }}sortable></Column>
+              <Column field="date" header="Date"  headerStyle={{ width: '10%' }}sortable></Column>
+              <Column field="genre" header="Genres" headerStyle={{ width: '30%' }}sortable></Column>
+              <Column field="action" header="Action" rowEditor headerStyle={{ width: '5%'}}  body={toggleClass}></Column>
+          </DataTable>
+      </div>
+    </div>
+    
+    <div class="bookStats">
+      <table>
+        <tr>
+          <th>Total Books</th>
+          <th>Completed</th>
+          <th>Plan To Read</th>
+        </tr>
+        <tr>
+          <td>{bookList().length}</td>
+          <td>{completedBooks()}</td>
+          <td>{planToReadBooks()}</td>
+        </tr>
+      </table>
     </div>
 
-    {/* <table className="table table-striped" style={{ marginTop: 100 }}>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Date</th>
-          <th>Genre</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>{bookList()}</tbody>
-    </table> */}
+    <div class="graph">
+      <h4>Graph</h4>
+    </div>
+
 
   </div>
-);
+  
+  );
 }
